@@ -92,13 +92,13 @@ modules:
 
   - type: gnome-extensions
     install:
-      - Bluetooth Battery Meter
-      - Clipboard Indicator
-      - GSConnect
-      - Media Controls
-      - Quick Settings Audio Devices Hider
-      - Quick Settings Audio Devices Renamer
-      - Search Light
+      - 6670  # Bluetooth Battery Meter
+      - 779   # Clipboard Indicator
+      - 1319  # GSConnect
+      - 10373 # Media Controls
+      - 5964  # Quick Settings Audio Devices Hider
+      - 6000  # Quick Settings Audio Devices Renamer
+      - 5489  # Search Light
 
   - type: bling
     install:
