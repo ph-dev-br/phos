@@ -20,19 +20,18 @@ modules:
     install:
       packages:
         - buildah
-        - container.io # required by docker
         - curl
-        - docker-buildx-plugin
-        - docker-ce
-        - docker-ce-cli
-        - docker-compose-plugin
         - fish
         - fp-appimage-updater
         - gcc # required by brew
         - git
+        - podman
+        - podman-compose
+        - podman-docker
         - wget
         - zstd # required by Brew
     remove:
+      auto-remove: true
       packages:
         - firefox
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
