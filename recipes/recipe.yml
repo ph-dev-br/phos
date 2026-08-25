@@ -14,8 +14,9 @@ modules:
         destination: /
 
   - type: dnf
-    copr:
-        - fptbb/fp-appimage-updater
+    repos:
+      copr:
+          - fptbb/fp-appimage-updater
     install:
       packages:
         - buildah
