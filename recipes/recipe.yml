@@ -5,7 +5,7 @@ name: phos
 description: My custom OS image for productivity.
 
 base-image: ghcr.io/ublue-os/silverblue-main
-image-version: latest
+image-version: 43
 
 modules:
   - type: files
