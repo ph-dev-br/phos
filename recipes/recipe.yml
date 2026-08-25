@@ -107,7 +107,6 @@ modules:
   - type: systemd
     system:
       enabled:
-        - docker.socket
         - podman.socket
 
   - type: os-release
