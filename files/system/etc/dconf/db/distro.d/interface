@@ -1,0 +1,9 @@
+[org/gnome/desktop/interface]
+accent-color='blue'
+color-scheme='prefer-dark'
+document-font-name='Inter 12'
+font-name='Inter 12'
+gtk-theme='Adwaita'
+icon-theme='Adwaita'
+monospace-font-name='FiraCode Nerd Font Mono 16'
+show-battery-percentage=true

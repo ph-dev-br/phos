@@ -1,45 +1,122 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
-description: This is my personal OS image.
 
-# the base image to build on top of (FROM) and the version tag to use
+name: phos
+description: My custom OS image for productivity.
+
 base-image: ghcr.io/ublue-os/silverblue-main
-image-version: latest # You can pin to a specific version of Fedora as well
+image-version: latest
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
   - type: files
     files:
       - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+        destination: /
 
   - type: dnf
-    repos:
-      copr:
-        - atim/starship
+    copr:
+        - fptbb/fp-appimage-updater
     install:
       packages:
-        - micro
-        - starship
+        - buildah
+        - container.io # required by docker
+        - curl
+        - docker-buildx-plugin
+        - docker-ce
+        - docker-ce-cli
+        - docker-compose-plugin
+        - fish
+        - fp-appimage-updater
+        - gcc # required by brew
+        - git
+        - wget
+        - zstd # required by Brew
     remove:
       packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
         - firefox
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
 
+  - type: brew
+    auto-update: true
+    update-interval: 1d
+    update-wait-after-boot: 5s
+    auto-upgrade: true
+    upgrade-interval: 7d
+    update-wait-after-boot: 30s
+    brew-analytics: true
+    direct-pull: true
+
   - type: default-flatpaks
     configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
-        scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
+      - scope: system
+        notify: true
+        repo:
+          title: Flathub (system)
+        install:
+          - be.alexandervanhee.gradia
+          - com.github.tchx84.Flatseal
+          - com.mattjakeman.ExtensionManager
+          - io.github.flattool.Warehouse
+          - io.github.kolunmi.Bazaar
+          - io.missioncenter.MissionCenter
+          - page.tesk.Refine
+      - scope: user
+        repo:
+          title: Flathub (user)
+        install:
+          - app.zen_browser.zen
+          - com.bitwarden.desktop
+          - org.gnome.Calculator
+          - org.gnome.Calendar
+          - org.gnome.FileRoller
+          - org.gnome.Firmware
           - org.gnome.Loupe
-      - scope: user # Also add Flathub user repo, but no user packages
+          - org.gnome.NautilusPreviewer
+          - org.gnome.Papers
+          - org.gnome.Showtime
+          - org.gnome.Snapshot
+          - org.gnome.baobab
+          - org.gnome.clocks
+          - org.gnome.gitlab.somas.Apostrophe
+          - org.libreoffice.LibreOffice
+          - org.localsend.localsend_app
+          - org.onlyoffice.desktopeditors
 
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+  - type: fonts
+    fonts:
+      nerd-fonts:
+        - FiraCode
+        - NerdFontsSymbolsOnly
+      google-fonts:
+        - Inter
+
+  - type: gnome-extensions
+    install:
+      - Bluetooth Battery Meter
+      - Clipboard Indicator
+      - GSConnect
+      - Media Controls
+      - Quick Settings Audio Devices Hider
+      - Quick Settings Audio Devices Renamer
+      - Search Light
+
+  - type: bling
+    install:
+      - dconf-update-service
+
+  - type: systemd
+    system:
+      enabled:
+        - docker.socket
+        - podman.socket
+
+  - type: os-release
+    properties:
+      ID: phos
+      ID_LIKE: fedora
+      NAME: Phosphorus
+      PRETTY_NAME: Phos
+      HOME_URL: https://github.com/ph-dev-br/phos
+      DEFAULT_HOSTNAME: phos
+
+  - type: signing
