@@ -43,7 +43,7 @@ modules:
     update-wait-after-boot: 5s
     auto-upgrade: true
     upgrade-interval: 7d
-    update-wait-after-boot: 30s
+    upgrade-wait-after-boot: 30s
     brew-analytics: true
     direct-pull: true
 
